@@ -1,13 +1,14 @@
 import tkinter as tk
-from tkinter import ttk
 
 
 class Keypad(tk.Frame):
 
-    def __init__(self, parent, keynames=[], columns=1, **kwargs):
+    def __init__(self, parent, keynames=None, columns=1, **kwargs):
         super().__init__(parent, **kwargs)
         self.parent = parent
         self.keynames = keynames
+        if self.keynames is None:
+            self.keynames = []
         self.columns = columns
         self.list_button = None
         self.init_components(columns)
@@ -33,6 +34,8 @@ class Keypad(tk.Frame):
                         column=col,
                         padx=2,
                         pady=2,
+                        ipadx=4,
+                        ipady=4,
                         sticky=tk.NSEW)
             list_button.append(button)
             self.columnconfigure(col, weight=1)
@@ -82,13 +85,3 @@ class Keypad(tk.Frame):
     @property
     def frame(self):
         return super()
-
-
-if __name__ == '__main__':
-    keys = list('789456123 0.')  # = ['7','8','9',...]
-
-    root = tk.Tk()
-    root.title("Keypad Demo")
-    keypad = Keypad(root, keynames=keys, columns=3)
-    keypad.pack(expand=True, fill=tk.BOTH)
-    root.mainloop()
